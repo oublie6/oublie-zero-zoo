@@ -1,0 +1,26 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8899
+
+DB:
+  DataSource: root:990910@tcp(127.0.0.1:3306)/zero-demo?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+Cache:
+  - Host: 192.168.171.3:6379
+    Pass: "990910"
+
+Log:
+  ServiceName: user-api
+  Mode: file
+  Path: logs
+  Level: info
+  Encoding: plain
+
+UserRpcConf:
+#  Endpoints:
+#    - 0.0.0.0:8080
+#  Etcd:
+#    Hosts:
+#      - 0.0.0.0:2379
+#    Key: user.rpc
+  Target: k8s://go-zero-looklook/basic-rpc-svc:9001

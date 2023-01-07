@@ -1,0 +1,98 @@
+syntax = "v1"
+
+info(
+	title: "用户api服务"
+	desc: "用户中心服务"
+	author: "Oublie"
+	email: "313166062@qq.com"
+	version: "0.0.0"
+)
+
+type (
+	UserInfoReq {
+		UserId int64 `json:"userId"`
+	}
+
+	UserInfoResp {
+		UserId   int64  `json:"userId"`
+		Nickname string `json:"nickname"`
+	}
+)
+
+type (
+	UserUpdateReq {
+		UserId   int64  `json:"userId"`
+		Nickname string `json:"nickname"`
+	}
+
+	UserUpdateResp {
+		Flag bool `json:"flag"`
+	}
+)
+
+type (
+	userCreateReq {
+		Mobile   string `json:"mobile"`
+		Nickname string `json:"nickname"`
+	}
+
+	userCreateResp {
+		Flag bool `json:"flag"`
+	}
+)
+
+type (
+	userTestReq struct{}
+
+	userTestResp struct{}
+)
+
+type (
+	basicIndexReq {
+		Data string `json:"data"`
+	}
+
+	basicIndexResp {
+		Msg string `json:"msg"`
+	}
+)
+
+@server(
+	//jwt: Auth
+	group: user
+	prefix : userapi/v1
+	middleware :TestMiddleware
+)
+service user-api {
+	@doc "获取用户信息"
+	@handler userInfo
+	get /user/info (UserInfoReq) returns (UserInfoResp)
+	
+	@doc "修改用户信息"
+	@handler userUpdate
+	get /user/update (UserUpdateReq) returns (UserUpdateResp)
+	
+	@doc "新增用户"
+	@handler userCreate
+	get /user/create (userCreateReq) returns (userCreateResp)
+}
+
+@server(
+	//jwt: Auth
+	group: user
+	prefix : userapi/v1
+)
+service user-api {
+	@doc "test"
+	@handler userTest
+	get /user/test (userTestReq) returns (userTestResp)
+}
+
+@server (
+	group:basic
+)
+service user-api{
+	@doc "basicIndex"
+	@handler basicIndex
+	get /index (basicIndexReq) returns (basicIndexResp)
+}
